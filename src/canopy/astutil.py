@@ -107,7 +107,7 @@ def looks_constructed(node: Node | None) -> bool:
 def make_finding(
     *,
     rule_id: str,
-    severity: Severity,
+    severity: Severity | str,
     cwe: str,
     message: str,
     path: str,
@@ -116,9 +116,10 @@ def make_finding(
 ) -> Finding:
     start_row, start_col = node.start_point
     end_row, end_col = node.end_point
+    parsed = Severity.parse(severity) if isinstance(severity, str) else severity
     return Finding(
         rule_id=rule_id,
-        severity=severity,
+        severity=parsed,
         cwe=cwe,
         message=message,
         path=path,
