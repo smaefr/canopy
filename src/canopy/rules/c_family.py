@@ -7,6 +7,7 @@ from tree_sitter import Node
 from canopy.astutil import (
     callee_name,
     call_args,
+    first_arg,
     is_string_literal,
     make_finding,
     string_value,
@@ -115,6 +116,31 @@ def _format_string(root: Node, source: bytes, path: str) -> list[Finding]:
     return findings
 
 
+def _command_injection(root: Node, source: bytes, path: str) -> list[Finding]:
+    findings: list[Finding] = []
+    for node in walk(root):
+        if node.type != "call_expression":
+            continue
+        name = callee_name(node)
+        if name not in {"system", "popen"}:
+            continue
+        command = first_arg(node)
+        if command is None or is_string_literal(command):
+            continue
+        findings.append(
+            make_finding(
+                rule_id="c-command-injection",
+                severity="high",
+                cwe="CWE-78",
+                message=f"{name} command is not a string literal",
+                path=path,
+                source=source,
+                node=node,
+            )
+        )
+    return findings
+
+
 C_FAMILY_RULES = [
     Rule(
         id="c-banned-api",
@@ -131,5 +157,13 @@ C_FAMILY_RULES = [
         cwe="CWE-134",
         message="Non-literal format string",
         check=_format_string,
+    ),
+    Rule(
+        id="c-command-injection",
+        languages=("c", "cpp"),
+        severity="high",
+        cwe="CWE-78",
+        message="system or popen with a non-literal command",
+        check=_command_injection,
     ),
 ]
