@@ -37,6 +37,7 @@ class Rule:
 
 
 def all_rules() -> list[Rule]:
+    from canopy.rules.c_family import C_FAMILY_RULES
     from canopy.rules.java import JAVA_RULES
 
-    return list(JAVA_RULES)
+    return [*JAVA_RULES, *C_FAMILY_RULES]
