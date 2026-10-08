@@ -140,7 +140,10 @@ def _weak_crypto(root: Node, source: bytes, path: str) -> list[Finding]:
         if node.type != "method_invocation" or method_name(node) != "getInstance":
             continue
         receiver = text_of(field(node, "object"))
-        algorithm = string_value(first_arg(node) or node)
+        argument = first_arg(node)
+        if argument is None:
+            continue
+        algorithm = string_value(argument)
         if algorithm is None:
             continue
         if receiver.endswith("MessageDigest") and _is_weak_digest(algorithm):
