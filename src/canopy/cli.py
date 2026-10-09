@@ -71,7 +71,8 @@ def _print_rules() -> int:
     for rule in rules:
         languages = ",".join(rule.languages)
         print(
-            f"{rule.id:<{width}}  {rule.severity!s:<6}  {rule.cwe:<8}  {languages:<10}  {rule.message}"
+            f"{rule.id:<{width}}  {rule.severity!s:<6}  {rule.cwe:<8}  "
+            f"{languages:<10}  {rule.message}"
         )
     return 0
 

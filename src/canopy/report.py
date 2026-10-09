@@ -30,7 +30,10 @@ def render_text(findings: list[Finding]) -> str:
     if not findings:
         return ""
     lines = [
-        f"{item.path}:{item.line}:{item.column}: {item.severity.name} {item.rule_id}: {item.message}"
+        (
+            f"{item.path}:{item.line}:{item.column}: "
+            f"{item.severity.name} {item.rule_id}: {item.message}"
+        )
         for item in findings
     ]
     return "\n".join(lines) + "\n"

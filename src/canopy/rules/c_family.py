@@ -5,8 +5,8 @@ import re
 from tree_sitter import Node
 
 from canopy.astutil import (
-    callee_name,
     call_args,
+    callee_name,
     first_arg,
     is_string_literal,
     make_finding,
