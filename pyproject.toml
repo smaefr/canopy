@@ -6,9 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "canopy"
 version = "0.1.0"
 description = "A lightweight AST scanner for Java, C, and C++"
+readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
 authors = [{ name = "smae" }]
+urls = { Homepage = "https://github.com/smaefr/canopy", Repository = "https://github.com/smaefr/canopy" }
 keywords = ["security", "sast", "ast", "java", "c", "cpp"]
 classifiers = [
     "Development Status :: 3 - Alpha",
